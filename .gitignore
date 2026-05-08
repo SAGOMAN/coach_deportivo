@@ -35,10 +35,11 @@ Thumbs.db
 *.log
 .env
 .env.*
+!.env.example
 
 # Cursor local files
 .cursor/
 agent-tools/
 
 # Model and large local assets (optional)
-models/
+/models/

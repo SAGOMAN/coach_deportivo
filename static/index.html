@@ -3,130 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contador de ejercicios</title>
+  <title>Sentadilla - captura de muestras</title>
   <style>
-    :root {
-      --bg: #0f1419;
-      --card: #1a2332;
-      --accent: #3d9cf5;
-      --text: #e8eef5;
-      --muted: #8b9cb3;
-      --ok: #4ade80;
-    }
+    :root { --bg:#0f1419; --card:#1a2332; --accent:#3d9cf5; --text:#e8eef5; --muted:#8b9cb3; --ok:#4ade80; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Segoe UI", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 1.25rem; }
+    body { margin: 0; min-height: 100vh; font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 1.25rem; }
     h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem; }
-    .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
-    .panel {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .choices { display: flex; flex-direction: column; gap: 0.5rem; }
-    @media (min-width: 560px) {
-      .choices { flex-direction: row; flex-wrap: wrap; }
-    }
-    label.choice {
-      flex: 1;
-      min-width: 160px;
-      padding: 0.75rem 1rem;
-      border: 2px solid #2a3a52;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: border-color 0.15s;
-    }
-    label.choice:hover { border-color: var(--accent); }
-    input[type="radio"] { accent-color: var(--accent); margin-right: 0.5rem; }
-    input[type="radio"]:checked + span { font-weight: 600; }
-    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
-    button {
-      padding: 0.65rem 1.25rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: 600;
-    }
+    .sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 1rem; }
+    .panel { background: var(--card); border-radius: 12px; padding: 1.1rem; margin-bottom: 1rem; }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    button { padding: 0.6rem 1rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
     button.primary { background: var(--accent); color: #04121f; }
     button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
     button.ghost { background: #2a3a52; color: var(--text); }
-    .video-wrap {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      aspect-ratio: 4 / 3;
-      max-height: 70vh;
-    }
+    .video-wrap { position: relative; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 4 / 3; max-height: 70vh; }
     video { display: none; }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    @media (max-width: 480px) { .stats { grid-template-columns: 1fr; } }
-    .stat {
-      background: #243044;
-      padding: 1rem;
-      border-radius: 8px;
-    }
-    .stat .label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .stat .value { font-size: 1.75rem; font-weight: 700; }
-    .hint {
-      margin-top: 0.75rem;
-      padding: 0.75rem 1rem;
-      background: #243044;
-      border-radius: 8px;
-      border-left: 4px solid var(--accent);
-      font-size: 0.95rem;
-    }
+    canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    @media (max-width: 760px) { .stats { grid-template-columns: 1fr; } }
+    .stat { background: #243044; padding: 0.9rem; border-radius: 8px; }
+    .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .value { font-size: 1.35rem; font-weight: 700; }
+    .hint { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #243044; border-radius: 8px; border-left: 4px solid var(--accent); font-size: 0.95rem; }
     .status { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
     .status.live { color: var(--ok); }
     .status.err { color: #f87171; }
+    .labels { display: flex; gap: 1rem; flex-wrap: wrap; margin: 0.7rem 0; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Contador de ejercicios</h1>
-    <p class="sub">
-      Elige un ejercicio y pulsa Empezar. La pose se analiza en tu navegador con MediaPipe (sin enviar vídeo al servidor).
-    </p>
+    <h1>Sentadilla - captura etiquetada</h1>
+    <p class="sub">Solo se procesa sentadilla. El video se analiza en tu navegador; se envían únicamente features y etiqueta.</p>
 
     <div class="panel">
-      <div class="choices">
-        <label class="choice">
-          <input type="radio" name="ex" value="squat" checked />
-          <span>1) Sentadillas</span>
-        </label>
-        <label class="choice">
-          <input type="radio" name="ex" value="pushup" />
-          <span>2) Flexiones de pecho</span>
-        </label>
-        <label class="choice">
-          <input type="radio" name="ex" value="knee_raise" />
-          <span>3) Rodillas al pecho (rodillas altas)</span>
-        </label>
-      </div>
       <div class="actions">
         <button type="button" class="primary" id="btnStart">Empezar</button>
         <button type="button" class="ghost" id="btnStop" disabled>Detener</button>
@@ -142,60 +53,78 @@
     </div>
 
     <div class="panel stats">
-      <div class="stat">
-        <div class="label">Repeticiones</div>
-        <div class="value" id="reps">0</div>
-      </div>
-      <div class="stat">
-        <div class="label">Fase</div>
-        <div class="value" id="phase" style="font-size:1.1rem;">—</div>
-      </div>
+      <div class="stat"><div class="label">Repeticiones</div><div class="value" id="reps">0</div></div>
+      <div class="stat"><div class="label">Fase</div><div class="value" id="phase">-</div></div>
+      <div class="stat"><div class="label">Rodilla media</div><div class="value" id="kneeMean">-</div></div>
     </div>
-    <div class="hint" id="hint">Selecciona un ejercicio y pulsa Empezar.</div>
+    <div class="hint" id="hint">Pulsa Empezar para iniciar webcam y detección.</div>
+
+    <div class="panel">
+      <div class="label">Etiqueta de muestra</div>
+      <div class="labels">
+        <label><input type="radio" name="sampleLabel" value="correcto" checked /> Correcto</label>
+        <label><input type="radio" name="sampleLabel" value="incorrecto" /> Incorrecto</label>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="btnCapture" disabled>Capturar muestra</button>
+      </div>
+      <p class="status" id="captureStatus">Sin capturas.</p>
+      <p class="sub">Atajo: tecla C para capturar con la etiqueta seleccionada.</p>
+    </div>
   </div>
 
   <script type="module">
-    import {
-      PoseLandmarker,
-      FilesetResolver,
-    } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+    import { PoseLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
 
-    const POSE_MODEL =
-      "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/latest/pose_landmarker_lite.task";
-    const WASM_BASE =
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
+    const POSE_MODEL = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/latest/pose_landmarker_lite.task";
+    const WASM_BASE = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm";
+    const L = { LEFT_SHOULDER:11, RIGHT_SHOULDER:12, LEFT_HIP:23, RIGHT_HIP:24, LEFT_KNEE:25, RIGHT_KNEE:26, LEFT_ANKLE:27, RIGHT_ANKLE:28 };
+    const TH_DOWN = 125;
+    const TH_UP = 155;
+    const TRUNK_LIMIT = 35;
 
-    const L = {
-      LEFT_SHOULDER: 11,
-      RIGHT_SHOULDER: 12,
-      LEFT_ELBOW: 13,
-      RIGHT_ELBOW: 14,
-      LEFT_WRIST: 15,
-      RIGHT_WRIST: 16,
-      LEFT_HIP: 23,
-      RIGHT_HIP: 24,
-      LEFT_KNEE: 25,
-      RIGHT_KNEE: 26,
-      LEFT_ANKLE: 27,
-      RIGHT_ANKLE: 28,
-    };
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const btnStart = document.getElementById("btnStart");
+    const btnStop = document.getElementById("btnStop");
+    const btnCapture = document.getElementById("btnCapture");
+    const statusEl = document.getElementById("status");
+    const captureStatus = document.getElementById("captureStatus");
+    const repsEl = document.getElementById("reps");
+    const phaseEl = document.getElementById("phase");
+    const kneeMeanEl = document.getElementById("kneeMean");
+    const hintEl = document.getElementById("hint");
+
+    let stream = null;
+    let raf = null;
+    let drawRunning = false;
+    let poseLandmarker = null;
+    let lastVideoTime = -1;
+    let state = { reps: 0, phase: "up" };
+    let latestSample = null;
+
+    function setStatus(text, cls = "") {
+      statusEl.textContent = text;
+      statusEl.className = "status " + cls;
+    }
 
     function angleDegrees(lm, a, b, c) {
-      if (lm[a] == null || lm[b] == null || lm[c] == null) return null;
+      if (!lm[a] || !lm[b] || !lm[c]) return null;
       const [ax, ay, az] = lm[a];
       const [bx, by, bz] = lm[b];
       const [cx, cy, cz] = lm[c];
-      const bax = ax - bx, bay = ay - by, baz = az - bz;
-      const bcx = cx - bx, bcy = cy - by, bcz = cz - bz;
-      const nba = Math.hypot(bax, bay, baz);
-      const nbc = Math.hypot(bcx, bcy, bcz);
-      if (nba < 1e-6 || nbc < 1e-6) return null;
-      let cos = (bax * bcx + bay * bcy + baz * bcz) / (nba * nbc);
+      const bax = [ax - bx, ay - by, az - bz];
+      const bcx = [cx - bx, cy - by, cz - bz];
+      const n1 = Math.hypot(...bax);
+      const n2 = Math.hypot(...bcx);
+      if (n1 < 1e-6 || n2 < 1e-6) return null;
+      let cos = (bax[0] * bcx[0] + bax[1] * bcx[1] + bax[2] * bcx[2]) / (n1 * n2);
       cos = Math.max(-1, Math.min(1, cos));
       return (Math.acos(cos) * 180) / Math.PI;
     }
 
-    function avgTwo(a, b) {
+    function avg2(a, b) {
       if (a != null && b != null) return (a + b) / 2;
       return a != null ? a : b;
     }
@@ -203,226 +132,104 @@
     function landmarksToMap(arr, minVis = 0.5) {
       const m = {};
       arr.forEach((p, i) => {
-        if (p.visibility >= minVis) m[i] = [p.x, p.y, p.z, p.visibility];
+        if ((p.visibility ?? 0) >= minVis) m[i] = [p.x, p.y, p.z, p.visibility ?? 0];
       });
       return Object.keys(m).length ? m : null;
     }
 
-    class SquatCounter {
-      constructor() {
-        this.reps = 0;
-        this.phase = "up";
-        this.TH_DOWN = 125;
-        this.TH_UP = 155;
-      }
-      update(lm) {
-        const left = angleDegrees(lm, L.LEFT_HIP, L.LEFT_KNEE, L.LEFT_ANKLE);
-        const right = angleDegrees(lm, L.RIGHT_HIP, L.RIGHT_KNEE, L.RIGHT_ANKLE);
-        const knee = avgTwo(left, right);
-        let hint = "Colócate de perfil y asegura que se vean piernas completas.";
-        if (knee == null) {
-          return { rep_count: this.reps, phase: this.phase, ok: false, hint, angle: null };
-        }
-        if (this.phase === "up" && knee < this.TH_DOWN) {
-          this.phase = "down";
-          hint = "Buena bajada; sube controlando las rodillas.";
-        } else if (this.phase === "down" && knee > this.TH_UP) {
-          this.reps += 1;
-          this.phase = "up";
-          hint = "Repetición válida. Sigue.";
-        } else if (this.phase === "down") {
-          hint = "Sube hasta estirar casi por completo las piernas.";
-        } else {
-          hint = "Baja hasta que los muslos queden al menos paralelos al suelo.";
-        }
-        return {
-          rep_count: this.reps,
-          phase: this.phase,
-          ok: true,
-          hint,
-          angle: Math.round(knee * 10) / 10,
-        };
-      }
+    function trunkInclination(lm, shoulderIdx, hipIdx) {
+      if (!lm[shoulderIdx] || !lm[hipIdx]) return null;
+      const dx = lm[shoulderIdx][0] - lm[hipIdx][0];
+      const dy = lm[shoulderIdx][1] - lm[hipIdx][1];
+      return (Math.atan2(Math.abs(dx), Math.abs(dy) + 1e-6) * 180) / Math.PI;
     }
 
-    class PushupCounter {
-      constructor() {
-        this.reps = 0;
-        this.phase = "up";
-        this.TH_BENT = 105;
-        this.TH_STRAIGHT = 145;
+    function toFixedOrNull(v, digits = 3) {
+      return v == null ? null : Number(v.toFixed(digits));
+    }
+
+    function computeFeatures(lm) {
+      const leftKnee = angleDegrees(lm, L.LEFT_HIP, L.LEFT_KNEE, L.LEFT_ANKLE);
+      const rightKnee = angleDegrees(lm, L.RIGHT_HIP, L.RIGHT_KNEE, L.RIGHT_ANKLE);
+      const leftHip = angleDegrees(lm, L.LEFT_SHOULDER, L.LEFT_HIP, L.LEFT_KNEE);
+      const rightHip = angleDegrees(lm, L.RIGHT_SHOULDER, L.RIGHT_HIP, L.RIGHT_KNEE);
+      const kneeMean = avg2(leftKnee, rightKnee);
+      const hipMean = avg2(leftHip, rightHip);
+      const leftTrunk = trunkInclination(lm, L.LEFT_SHOULDER, L.LEFT_HIP);
+      const rightTrunk = trunkInclination(lm, L.RIGHT_SHOULDER, L.RIGHT_HIP);
+      const trunkMean = avg2(leftTrunk, rightTrunk);
+      const kneeSym = leftKnee != null && rightKnee != null ? Math.abs(leftKnee - rightKnee) : null;
+      const hipSym = leftHip != null && rightHip != null ? Math.abs(leftHip - rightHip) : null;
+      const symmetry = kneeSym != null && hipSym != null ? (kneeSym + hipSym) / 2 : null;
+      const visValues = [L.LEFT_SHOULDER, L.RIGHT_SHOULDER, L.LEFT_HIP, L.RIGHT_HIP, L.LEFT_KNEE, L.RIGHT_KNEE, L.LEFT_ANKLE, L.RIGHT_ANKLE]
+        .map((idx) => (lm[idx] ? lm[idx][3] : null))
+        .filter((v) => v != null);
+      const visibility = visValues.length ? visValues.reduce((acc, cur) => acc + cur, 0) / visValues.length : null;
+
+      const features = {
+        left_knee_angle: toFixedOrNull(leftKnee, 2),
+        right_knee_angle: toFixedOrNull(rightKnee, 2),
+        knee_angle_mean: toFixedOrNull(kneeMean, 2),
+        left_hip_angle: toFixedOrNull(leftHip, 2),
+        right_hip_angle: toFixedOrNull(rightHip, 2),
+        hip_angle_mean: toFixedOrNull(hipMean, 2),
+        trunk_inclination: toFixedOrNull(trunkMean, 2),
+        left_right_symmetry: toFixedOrNull(symmetry, 2)
+      };
+      return { features, visibility: toFixedOrNull(visibility, 4) };
+    }
+
+    function updateSquatState(features) {
+      const knee = features.knee_angle_mean;
+      const trunk = features.trunk_inclination;
+      let hint = "Colocate de perfil y manten piernas completas visibles.";
+      let ok = false;
+      if (knee == null) return { ...state, ok, hint };
+
+      const trunkSafe = trunk == null || trunk <= TRUNK_LIMIT;
+      if (state.phase === "up" && knee < TH_DOWN && trunkSafe) {
+        state.phase = "down";
+        hint = "Buena bajada. Mantener tronco estable.";
+      } else if (state.phase === "down" && knee > TH_UP && trunkSafe) {
+        state.reps += 1;
+        state.phase = "up";
+        hint = "Repeticion valida de sentadilla.";
+      } else if (!trunkSafe) {
+        hint = "Inclinas mucho el tronco. Mantener pecho arriba.";
+      } else if (state.phase === "down") {
+        hint = "Sube extendiendo rodillas de forma controlada.";
+      } else {
+        hint = "Baja hasta al menos paralelo sin colapsar rodillas.";
       }
-      update(lm) {
-        const left = angleDegrees(lm, L.LEFT_SHOULDER, L.LEFT_ELBOW, L.LEFT_WRIST);
-        const right = angleDegrees(lm, L.RIGHT_SHOULDER, L.RIGHT_ELBOW, L.RIGHT_WRIST);
-        const elbow = avgTwo(left, right);
-        let hint = "Asegura que cámara vea brazos y torso (plancha).";
-        if (elbow == null) {
-          return { rep_count: this.reps, phase: this.phase, ok: false, hint, angle: null };
-        }
-        if (
-          lm[L.LEFT_SHOULDER] == null ||
-          lm[L.RIGHT_SHOULDER] == null ||
-          lm[L.LEFT_HIP] == null ||
-          lm[L.RIGHT_HIP] == null
-        ) {
-          return { rep_count: this.reps, phase: this.phase, ok: false, hint, angle: Math.round(elbow * 10) / 10 };
-        }
-        const sy = (lm[L.LEFT_SHOULDER][1] + lm[L.RIGHT_SHOULDER][1]) / 2;
-        const hy = (lm[L.LEFT_HIP][1] + lm[L.RIGHT_HIP][1]) / 2;
-        const torsoTilt = Math.abs(sy - hy);
-        if (torsoTilt >= 0.22) {
-          hint = "Cuerpo más horizontal: hombros y cadera alineados en plancha.";
-          return {
-            rep_count: this.reps,
-            phase: this.phase,
-            ok: false,
-            hint,
-            angle: Math.round(elbow * 10) / 10,
-          };
-        }
-        if (this.phase === "up" && elbow < this.TH_BENT) {
-          this.phase = "down";
-          hint = "Abajo bien; empuja el suelo al subir.";
-        } else if (this.phase === "down" && elbow > this.TH_STRAIGHT) {
-          this.reps += 1;
-          this.phase = "up";
-          hint = "Repetición válida.";
-        } else if (this.phase === "down") {
-          hint = "Extiende los codos casi por completo.";
-        } else {
-          hint = "Baja el pecho flexionando codos hacia atrás.";
-        }
-        return {
-          rep_count: this.reps,
-          phase: this.phase,
-          ok: true,
-          hint,
-          angle: Math.round(elbow * 10) / 10,
-        };
-      }
+      ok = trunkSafe;
+      return { reps: state.reps, phase: state.phase, ok, hint };
     }
 
-    class KneeRaiseCounter {
-      constructor() {
-        this.reps = 0;
-        this.leftPhase = "down";
-        this.rightPhase = "down";
-        this.LIFT = 0.07;
-        this.CLEAR = 0.02;
-      }
-      update(lm) {
-        let hint = "De pie; que se vean caderas y rodillas.";
-        if (
-          lm[L.LEFT_HIP] == null ||
-          lm[L.LEFT_KNEE] == null ||
-          lm[L.RIGHT_HIP] == null ||
-          lm[L.RIGHT_KNEE] == null
-        ) {
-          return { rep_count: this.reps, phase: "neutral", ok: false, hint, angle: null };
-        }
-        const lkY = lm[L.LEFT_KNEE][1];
-        const lhY = lm[L.LEFT_HIP][1];
-        const rkY = lm[L.RIGHT_KNEE][1];
-        const rhY = lm[L.RIGHT_HIP][1];
-        const leftUp = lkY < lhY - this.LIFT;
-        const rightUp = rkY < rhY - this.LIFT;
-        const leftClear = lkY > lhY - this.CLEAR;
-        const rightClear = rkY > rhY - this.CLEAR;
-
-        let repThisFrame = false;
-        if (this.leftPhase === "down" && leftUp) this.leftPhase = "up";
-        else if (this.leftPhase === "up" && leftClear) {
-          this.reps += 1;
-          this.leftPhase = "down";
-          repThisFrame = true;
-          hint = "Buena repetición (pierna izquierda).";
-        }
-
-        if (this.rightPhase === "down" && rightUp) this.rightPhase = "up";
-        else if (this.rightPhase === "up" && rightClear) {
-          this.reps += 1;
-          this.rightPhase = "down";
-          repThisFrame = true;
-          hint = "Buena repetición (pierna derecha).";
-        }
-
-        const phase = this.leftPhase === "up" || this.rightPhase === "up" ? "up" : "down";
-        if (!repThisFrame) hint = "Eleva cada rodilla por encima de la cadera y vuelve a bajar.";
-        const liftL = lhY - lkY;
-        const liftR = rhY - rkY;
-        return {
-          rep_count: this.reps,
-          phase,
-          ok: true,
-          hint,
-          angle: Math.round(Math.max(liftL, liftR) * 1000),
-        };
-      }
-    }
-
-    function makeCounter(kind) {
-      if (kind === "squat") return new SquatCounter();
-      if (kind === "pushup") return new PushupCounter();
-      if (kind === "knee_raise") return new KneeRaiseCounter();
-      return new SquatCounter();
-    }
-
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    const btnStart = document.getElementById("btnStart");
-    const btnStop = document.getElementById("btnStop");
-    const statusEl = document.getElementById("status");
-    const repsEl = document.getElementById("reps");
-    const phaseEl = document.getElementById("phase");
-    const hintEl = document.getElementById("hint");
-
-    let stream = null;
-    let raf = null;
-    let drawRunning = false;
-    let poseLandmarker = null;
-    let counter = null;
-    let lastVideoTime = -1;
-
-    function selectedExercise() {
-      const r = document.querySelector('input[name="ex"]:checked');
-      return r ? r.value : "squat";
-    }
-
-    function setStatus(text, cls) {
-      statusEl.textContent = text;
-      statusEl.className = "status " + (cls || "");
-    }
-
-    function applyUi(out) {
-      repsEl.textContent = String(out.rep_count);
-      phaseEl.textContent = out.phase || "—";
-      if (out.hint) hintEl.textContent = out.hint;
+    function applyUi(out, features) {
+      repsEl.textContent = String(out.reps);
+      phaseEl.textContent = out.phase;
+      kneeMeanEl.textContent = features.knee_angle_mean == null ? "-" : String(features.knee_angle_mean);
+      hintEl.textContent = out.hint;
     }
 
     async function ensurePose() {
       if (poseLandmarker) return;
-      setStatus("Cargando MediaPipe (puede tardar la primera vez)…");
+      setStatus("Cargando MediaPipe...");
       const vision = await FilesetResolver.forVisionTasks(WASM_BASE);
       poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
-        baseOptions: {
-          modelAssetPath: POSE_MODEL,
-          delegate: "CPU",
-        },
+        baseOptions: { modelAssetPath: POSE_MODEL, delegate: "CPU" },
         runningMode: "VIDEO",
         numPoses: 1,
         minPoseDetectionConfidence: 0.5,
         minPosePresenceConfidence: 0.5,
-        minTrackingConfidence: 0.5,
+        minTrackingConfidence: 0.5
       });
     }
 
     function frameLoop(ts) {
       if (!drawRunning) return;
-
       if (stream && video.videoWidth > 0 && video.videoHeight > 0) {
-        const w = 480;
+        const w = 640;
         const h = Math.round((video.videoHeight / video.videoWidth) * w);
         if (canvas.width !== w || canvas.height !== h) {
           canvas.width = w;
@@ -440,24 +247,26 @@
           const raw = result.landmarks && result.landmarks[0];
           if (raw) {
             const lm = landmarksToMap(raw);
-            if (lm && counter) applyUi(counter.update(lm));
-            else {
-              applyUi({
-                rep_count: counter ? counter.reps : 0,
-                phase: "neutral",
-                hint: "No se detecta una pose clara. Colócate frente a la cámara.",
-              });
+            if (lm) {
+              const { features, visibility } = computeFeatures(lm);
+              const out = updateSquatState(features);
+              applyUi(out, features);
+              latestSample = {
+                phase: out.phase,
+                rep_count: out.reps,
+                knee_angle_mean: features.knee_angle_mean,
+                trunk_inclination: features.trunk_inclination,
+                visibility_score: visibility,
+                features
+              };
+            } else {
+              hintEl.textContent = "Landmarks con baja visibilidad.";
             }
-          } else if (counter) {
-            applyUi({
-              rep_count: counter.reps,
-              phase: "neutral",
-              hint: "No se detecta una pose. Colócate frente a la cámara.",
-            });
+          } else {
+            hintEl.textContent = "No se detecta una pose clara.";
           }
         }
       }
-
       if (drawRunning) raf = requestAnimationFrame(frameLoop);
     }
 
@@ -483,13 +292,17 @@
         stream = null;
       }
       video.srcObject = null;
-      counter = null;
+      state = { reps: 0, phase: "up" };
+      latestSample = null;
       btnStart.disabled = false;
       btnStop.disabled = true;
+      btnCapture.disabled = true;
       setStatus("Listo");
-      hintEl.textContent = "Selecciona un ejercicio y pulsa Empezar.";
+      captureStatus.textContent = "Sin capturas.";
       repsEl.textContent = "0";
-      phaseEl.textContent = "—";
+      phaseEl.textContent = "-";
+      kneeMeanEl.textContent = "-";
+      hintEl.textContent = "Pulsa Empezar para iniciar webcam y deteccion.";
     }
 
     function playVideoWhenReady(v) {
@@ -502,51 +315,75 @@
       });
     }
 
+    function selectedLabel() {
+      const checked = document.querySelector('input[name="sampleLabel"]:checked');
+      return checked ? checked.value : "correcto";
+    }
+
+    async function sendSample() {
+      if (!latestSample) {
+        captureStatus.textContent = "Aun no hay features para capturar.";
+        return;
+      }
+      const payload = { ...latestSample, label: selectedLabel() };
+      try {
+        const response = await fetch("/api/samples", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const saved = await response.json();
+        captureStatus.textContent = "Muestra guardada: #" + saved.id + " (" + payload.label + ")";
+      } catch (err) {
+        captureStatus.textContent = "Error al guardar muestra: " + (err.message || String(err));
+      }
+    }
+
     btnStop.addEventListener("click", stopAll);
+    btnCapture.addEventListener("click", sendSample);
+    window.addEventListener("keydown", (event) => {
+      if (event.key.toLowerCase() === "c" && !btnCapture.disabled) sendSample();
+    });
 
     btnStart.addEventListener("click", async () => {
       if (stream) return;
-
       btnStart.disabled = true;
       try {
         await ensurePose();
-      } catch (e) {
+      } catch (err) {
         btnStart.disabled = false;
         setStatus("Error al cargar MediaPipe", "err");
-        hintEl.textContent = (e && e.message) || String(e);
+        hintEl.textContent = (err && err.message) || String(err);
         return;
       }
-
-      counter = makeCounter(selectedExercise());
 
       try {
         stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } },
-          audio: false,
+          audio: false
         });
       } catch {
         btnStart.disabled = false;
-        setStatus("No se pudo acceder a la cámara.", "err");
-        hintEl.textContent = "Permite la cámara (localhost o HTTPS).";
+        setStatus("No se pudo acceder a la camara.", "err");
+        hintEl.textContent = "Permite la camara (localhost o HTTPS).";
         return;
       }
 
       video.srcObject = stream;
       try {
         await playVideoWhenReady(video);
-      } catch (e) {
+      } catch (err) {
         stopAll();
-        setStatus("No se pudo iniciar el vídeo.", "err");
-        hintEl.textContent =
-          e && e.name === "AbortError"
-            ? "Reintenta sin doble clic en Empezar."
-            : (e && e.message) || String(e);
+        setStatus("No se pudo iniciar el video.", "err");
+        hintEl.textContent = (err && err.message) || String(err);
         return;
       }
 
       btnStop.disabled = false;
-      setStatus("Analizando pose en el navegador…", "live");
-      hintEl.textContent = "Comienza el ejercicio. Mantente frente a la cámara.";
+      btnCapture.disabled = false;
+      setStatus("Analizando sentadilla en tiempo real...", "live");
+      hintEl.textContent = "Ejecuta sentadilla y captura muestras con etiqueta manual.";
       startLoop();
     });
   </script>
